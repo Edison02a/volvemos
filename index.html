@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh; /* Establece la altura del body en 100% de la pantalla */
+  display: flex; /* Establece el display en flex para centrar el contenido */
+  justify-content: center; /* Centra el contenido horizontalmente */
+  align-items: center; /* Centra el contenido verticalmente */
+}
+
+.container {
+  width: 80%;
+  text-align: center;
+}
+
+.button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.message {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.full-screen-div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index: 1000;
+  display: none;
+}
+
+.full-screen-div img {
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>¿Podemos volver?</h1>
+
+    <div id="messages"></div>
+
+    <button class="button" id="si">Sí</button>
+    <button class="button" id="no">No</button>
+
+    <script>
+      let clickCount = 0;
+      let siButton = document.getElementById("si");
+      let noButton = document.getElementById("no");
+      let messagesDiv = document.getElementById("messages");
+
+      let messages = [
+        "Como que no?",
+        "Deja de darle click al no, escuchame un momento porfavor",
+        "Mira me pase de pendejo, pero enserio te extraño",
+        "¿Cómo te hago entender que a nadie extraño más Que nada me hace falta más que tu presencia?",
+        "¿Y qué más puedo hacer para complacerte? Con todo lo que te digo no logro convencerte",
+        "Deja de darle al no porfavor",
+        "Creo que estas de obstinada con el boton no, vamos a empezar de nuevo"
+      ];
+
+      noButton.addEventListener("click", function() {
+        clickCount++;
+        if (clickCount <= 8) {
+          let message = messages[clickCount - 1];
+          messagesDiv.innerHTML += `<p class="message">${message}</p>`; 
+
+          // Make the "Si" button bigger
+          siButton.style.padding = `${15 + clickCount * 5}px ${32 + clickCount * 5}px`; 
+          siButton.style.fontSize = `${16 + clickCount * 2}px`;
+
+          // Cambia el color del botón "Sí" a rojo después del primer clic
+          if (clickCount === 1) {
+            siButton.style.backgroundColor = "red";
+          }
+        }
+
+        if (clickCount === 8) {
+          clickCount = 0;
+          messagesDiv.innerHTML = "";
+          siButton.style.padding = "15px 32px";
+          siButton.style.fontSize = "16px";
+          siButton.style.backgroundColor = "#4CAF50"; // Restablece el color original del botón "Sí"
+        }
+      });
+
+      siButton.addEventListener("click", function() {
+        let message = "Sí?, gracias dios por esta oportunidad";
+        let messagesDiv = document.getElementById("messages");
+        messagesDiv.innerHTML += `<p class="message">${message}</p>`; 
+      
+        setTimeout(function() {
+          let fullScreenDiv = document.createElement("div");
+          fullScreenDiv.className = "full-screen-div";
+          document.body.appendChild(fullScreenDiv);
+      
+          let heartImg = document.createElement("img");
+          heartImg.src = "corazon.gif"; // Reemplaza con la ruta de tu archivo GIF
+          heartImg.style.width = "100%";
+          heartImg.style.height = "100%";
+          fullScreenDiv.appendChild(heartImg);
+      
+          fullScreenDiv.style.display = "block";
+          fullScreenDiv.style.animation = "fadeInOut 3s";
+      
+          // Animación de desaparición
+          setTimeout(function() {
+            fullScreenDiv.style.display = "none";
+          }, 3000); // Desaparece después de 3 segundos
+        }, 1000); // Muestra el GIF después de 1 segundo
+      });
+    </script>
+  </div>
+</body>
+</html>
